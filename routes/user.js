@@ -17,7 +17,8 @@ router.route('/login')
 router.route('/dashboard')
     .all(isAuth)
     .get(async(req, res) => {
-        res.send('welcome to your dashboard')
+        const user = req.user
+        res.status(200).json({ msg: 'Welcome to the dashboard', user })
     })
     .post()
 

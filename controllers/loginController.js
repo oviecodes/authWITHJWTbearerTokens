@@ -1,5 +1,6 @@
 
 
+require('dotenv').config()
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
@@ -19,7 +20,7 @@ const authUser = async(req, res) => {
         } else {
             const valid = user.validPassword(password)
             if(valid){
-                jwt.sign({ id: user.id }, 'secretkey', { expiresIn: 360 }, (err, token) => {
+                jwt.sign({ id: user.id }, process.env.JWTSECRET, { expiresIn: Number(process.env.EXPIRES) }, (err, token) => {
                     return res.status(200).json({
                         token
                     })

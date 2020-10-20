@@ -1,5 +1,6 @@
 
 
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 const isAuth = async(req, res, next) => {
@@ -9,9 +10,9 @@ const isAuth = async(req, res, next) => {
         return res.status(400).json({ msg: 'pls provide bearer header' })
     } else {
         const bearer = bearerHeader.split(' ')
-        const bearerToken = bearer[1]
+        const [ _, bearerToken ] = bearer
         //verify token
-        jwt.verify(bearerToken, 'secretkey', (err, decoded) => {
+        jwt.verify(bearerToken, process.env.JWTSECRET, (err, decoded) => {
             if(err){
                 return res.status(400).json({ msg: 'invalid token' })
             }
